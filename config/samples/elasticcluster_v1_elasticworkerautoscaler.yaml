@@ -1,0 +1,20 @@
+apiVersion: elasticcluster.sarweshsuman.com/v1
+kind: ElasticWorkerAutoscaler
+metadata:
+  name: elasticworkerautoscaler-sample
+spec:
+  scaleTargetRef:
+    name: elasticworker-sample
+    namespace: default
+  metricSpec:
+    name: total_cluster_load
+    resourceName: elasticworker-sample
+    namespace: default
+  targetValue: 60
+  scaleInSpec:
+    shutdownHttpHook: http://localhost:8888/shutdownpods
+    podMetricSpec:
+      name: load
+      namespace: default
+    markForTerminationLabel:
+      delete: "true"

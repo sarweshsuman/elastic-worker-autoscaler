@@ -1,0 +1,24 @@
+# permissions for end users to edit elasticworkers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: elasticworker-editor-role
+rules:
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkers/status
+  verbs:
+  - get

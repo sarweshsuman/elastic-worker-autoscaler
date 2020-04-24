@@ -1,0 +1,24 @@
+# permissions for end users to edit elasticworkerautoscalers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: elasticworkerautoscaler-editor-role
+rules:
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkerautoscalers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkerautoscalers/status
+  verbs:
+  - get

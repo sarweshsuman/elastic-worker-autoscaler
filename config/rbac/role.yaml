@@ -1,0 +1,90 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/status
+  verbs:
+  - get
+- apiGroups:
+  - custom.metrics.k8s.io
+  resources:
+  - pods/load
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - custom.metrics.k8s.io
+  resources:
+  - pods/total_cluster_load
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkerautoscalers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkerautoscalers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - elasticcluster.sarweshsuman.com
+  resources:
+  - elasticworkers/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -1,0 +1,10 @@
+domain: sarweshsuman.com
+repo: github.com/sarweshsuman/elastic-worker-autoscaler
+resources:
+- group: elasticcluster
+  kind: ElasticWorkerAutoscaler
+  version: v1
+- group: elasticcluster
+  kind: ElasticWorker
+  version: v1
+version: "2"

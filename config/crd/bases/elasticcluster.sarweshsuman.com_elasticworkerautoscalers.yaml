@@ -1,0 +1,140 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: elasticworkerautoscalers.elasticcluster.sarweshsuman.com
+spec:
+  group: elasticcluster.sarweshsuman.com
+  names:
+    kind: ElasticWorkerAutoscaler
+    listKind: ElasticWorkerAutoscalerList
+    plural: elasticworkerautoscalers
+    singular: elasticworkerautoscaler
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: ElasticWorkerAutoscaler is the Schema for the elasticworkerautoscalers
+        API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: ElasticWorkerAutoscalerSpec defines the desired state of ElasticWorkerAutoscaler
+          properties:
+            metricSpec:
+              description: metric defines what metric to collect scope is limited
+                to custom metrics only metric is limited to resource type pods only
+              properties:
+                name:
+                  description: metric name to retrieve, like total_cluster_load
+                  type: string
+                namespace:
+                  description: namespace where the resource is located
+                  type: string
+                resourceName:
+                  description: resource name can be for example pod name or a fixed
+                    name like cluster name If this is not provided, then pod name
+                    will be used.
+                  type: string
+              required:
+              - name
+              - namespace
+              type: object
+            scaleInSpec:
+              description: shutdown hook is called so that the processes within pods
+                are shutdown safely before those pods are labelled for termination.
+              properties:
+                markForTerminationLabel:
+                  additionalProperties:
+                    type: string
+                  description: label to use to set for marking a pod to be applicable
+                    for termination
+                  type: object
+                podMetricSpec:
+                  description: to retrieve worker pod specific metric
+                  properties:
+                    name:
+                      description: metric name to retrieve, like total_cluster_load
+                      type: string
+                    namespace:
+                      description: namespace where the resource is located
+                      type: string
+                    resourceName:
+                      description: resource name can be for example pod name or a
+                        fixed name like cluster name If this is not provided, then
+                        pod name will be used.
+                      type: string
+                  required:
+                  - name
+                  - namespace
+                  type: object
+                scaleInBackOff:
+                  description: Scale in back off in seconds. By default it waits 30
+                    seconds to scale-in since it saw first scale-in opportunity.
+                  type: integer
+                shutdownHttpHook:
+                  description: 'http endpoint to hit to start shutdown of a pod Limitation:
+                    currently this is specific to flower api it needs to be fast and
+                    stateless and siliently ignore error if same pod is sent multiple
+                    times, it should not error out.'
+                  type: string
+              required:
+              - podMetricSpec
+              - shutdownHttpHook
+              type: object
+            scaleTargetRef:
+              description: scaleTargetRef points to the target ElasticWorker object
+                to scale
+              properties:
+                name:
+                  description: Kind of the referent; Kind is fixed at ElasticWorker
+                    Kind string `json:"kind"` Name of the referent;
+                  type: string
+                namespace:
+                  description: namespace of the referent object;
+                  type: string
+              required:
+              - name
+              - namespace
+              type: object
+            targetValue:
+              description: targetValue currently supported as percentage of Load only
+              type: integer
+          required:
+          - metricSpec
+          - scaleInSpec
+          - scaleTargetRef
+          - targetValue
+          type: object
+        status:
+          description: ElasticWorkerAutoscalerStatus defines the observed state of
+            ElasticWorkerAutoscaler
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
