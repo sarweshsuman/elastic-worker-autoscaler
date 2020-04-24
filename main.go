@@ -82,15 +82,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	/*
-		gv, err := apiVersionsGetter.PreferredVersion()
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Printf("Preferred Version %v", gv)
-	*/
-
 	if err = (&controllers.ElasticWorkerAutoscalerReconciler{
 		CustomMetricsClient: *customMetricClient,
 		Client:              mgr.GetClient(),
@@ -108,19 +99,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ElasticWorker")
 		os.Exit(1)
 	}
-
-	/*
-		podNamePrefix := "elasticclustermetric_default_pod1_load"
-		podLabels := map[string]string{"name": podNamePrefix}
-		selectors := labels.SelectorFromSet(podLabels)
-
-		gvk := schema.FromAPIVersionAndKind("v1", "Pod")
-		mvl, err := customMetricClient.NamespacedMetrics("default").GetForObject(gvk.GroupKind(), "custom-metrics-6bf9d8969b-lzkvs", "packets-per-second-1", selectors)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("metric = %+v", mvl)
-	*/
 
 	// +kubebuilder:scaffold:builder
 
